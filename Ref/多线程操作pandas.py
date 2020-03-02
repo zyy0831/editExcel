@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import xlrd,os,xlwt
 from openpyxl import load_workbook
+import threading
 
 def getLabel(labels,labelFin):
     ex1 = 'Unnamed'
@@ -47,11 +48,20 @@ def getExcelName(data_path):
         #print(fileName_Path)
         getTable(fileName,fileName_Path)
 
-if __name__=="__main__":
-    path = r'c:\Users\zyy\Desktop\气象\城市_20190101-20191231-xlsx\城市_20190101-20191231-xlsx'
+
+def done(pathout):
+    path = r'c:\Users\zyy\Desktop\气象\城市_20190101-20191231-xlsx'
     # path = input("请输入待处理文件\n")
-    pathout = r'c:\Users\zyy\Desktop\气象\城市_20190101-20191231-xlsx\out'
-    # pathout = input("请输入输出文件\n")
     getExcelName(path) 
     print('处理完成')
+
+def main():
+    # """创建启动线程"""
+    t_done = threading.Thread(target=done)
+    t_done.start()
+
+if __name__=="__main__":
+    pathout = r'c:\Users\zyy\Desktop\气象\城市_20190101-20191231-xlsx\out'
+    # pathout = input("请输入输出文件\n")
+    main()
     
