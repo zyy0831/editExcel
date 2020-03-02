@@ -15,6 +15,7 @@ def getLabel(labels,labelFin):
 
 def Deal(fileName,fileName_Path,sheetNameAll):
     filename_head = fileName.split('.')[0]
+    date_filename=filename_head.split('_')[2]
     exportName=filename_head+'Deal.xlsx'
     outPath = os.path.join(pathout, exportName)#拼接路径
     writer = pd.ExcelWriter(outPath)	# 写入Excel文件
@@ -26,10 +27,13 @@ def Deal(fileName,fileName_Path,sheetNameAll):
             labels = list(outfile.columns.values)
             labelFin=[]
             getLabel(labels,labelFin)
+            # print(labelFin)
             col_mean = outfile[labelFin].mean()
-            col_mean["type"]="Avg"
+            col_mean["type"] = "Avg"
+            col_mean["date"] = date_filename
             outfile = outfile.append(col_mean,ignore_index=True)
             # outfile.loc[Type+'Row_sum'] = outfile.apply(lambda x: x.sum()) #求和
+            outfile = outfile[outfile['type'].isin(['Avg'])]
             outfile.to_excel(writer, Type)		# ‘Type’是写入excel的sheet名
     writer.save()
     writer.close()
