@@ -33,14 +33,14 @@ def outPut(pathout,filename,result):
 
 def deal(filename,excel,pathout):
         table = excel.sheets()[0]#通过索引获取sheet
-        #rows=table.nrows#获取行数[1-]
-        cols=table.ncols #获取列数[3-]
+        rows=table.nrows #获取行数361
+        cols=table.ncols #有效列数556 实际370
         sum = np.zeros((17,cols))
         #result = np.zeros(380)
         result = np.zeros((17,cols))
 
-        for i in range(3, cols): #遍历列 ,3-
-            for j in range(2, 17): #遍历行 ,1-
+        for i in range(3, cols): #遍历列 
+            for j in range(2, 17): #遍历行 
                 for k in range(0,23):
                     ctype =table.cell(j+k*15,i).ctype#判断数据类型
                     if ctype == 0: # python读取excel中单元格的内容返回的有5种类型,0 empty,1 string, 2 number, 3 date, 4 boolean, 5 error
@@ -49,13 +49,16 @@ def deal(filename,excel,pathout):
                         data = table.cell(j+k*15,i).value #获取当前行列的内容,从第一行第一列是从0开始的
                     sum[j][i] += data
                 result[j][i] = sum[j][i]/24
+        
         outPut(pathout,filename,result)
 
 if __name__=="__main__":
-    path = input("请输入待处理文件\n")
-    pathout = input("请输入输出文件\n")
+    path = r'c:\Users\zyy\Desktop\气象\城市_20190101-20191231-xlsx\新建文件夹'
+    # path = input("请输入待处理文件\n")
+    pathout = r'c:\Users\zyy\Desktop\气象\城市_20190101-20191231-xlsx\out'
+    # pathout = input("请输入输出文件\n")
     getExcelName(path)        
-    
+
 #Row_values=table.row_values(i)   #获取整行内容
 
 #Col_values=table.col_values(i)   #获取整列内容
